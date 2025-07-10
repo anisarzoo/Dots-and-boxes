@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dots and Boxes - Classroom Edition</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/theme.css">
+    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Schoolbell&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<body>
+    <!-- Home Screen -->
+    <div id="homeScreen" class="screen active">
+        <div class="home-container">
+            <h1 class="game-title">📚 Dots and Boxes Classroom 📚</h1>
+            <div class="name-input-container">
+                <label for="playerName">Enter your name to start:</label>
+                <input type="text" id="playerName" placeholder="Your name..." maxlength="15">
+            </div>
+            
+            <div class="game-modes">
+                <button id="localGameBtn" class="mode-btn" disabled>
+                    <div class="btn-icon">👥</div>
+                    <div class="btn-text">Local Game</div>
+                    <div class="btn-desc">2-4 players on same device</div>
+                </button>
+                
+                <button id="createRoomBtn" class="mode-btn" disabled>
+                    <div class="btn-icon">🏫</div>
+                    <div class="btn-text">Create Room</div>
+                    <div class="btn-desc">Invite friends with room code</div>
+                </button>
+                
+                <button id="joinRoomBtn" class="mode-btn" disabled>
+                    <div class="btn-icon">🚪</div>
+                    <div class="btn-text">Join Room</div>
+                    <div class="btn-desc">Enter friend's room code</div>
+                </button>
+                
+                <button id="quickMatchBtn" class="mode-btn" disabled>
+                    <div class="btn-icon">⚡</div>
+                    <div class="btn-text">Quick Match</div>
+                    <div class="btn-desc">Find random opponent</div>
+                </button>
+            </div>
+            
+            <div class="theme-toggle-home">
+                <button id="themeToggleHome" class="theme-btn">
+                    <span class="theme-icon">🌗</span>
+                    <span class="theme-text">Theme</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Local Game Setup -->
+    <div id="localSetupScreen" class="screen">
+        <div class="setup-container">
+            <button class="home-btn">🏠 Back to Home</button>
+            <h2>Create Game</h2>
+            
+            <div class="player-count">
+                <label>Number of players:</label>
+                <div class="count-buttons">
+                    <button class="count-btn active" data-count="2">2</button>
+                    <button class="count-btn" data-count="3">3</button>
+                    <button class="count-btn" data-count="4">4</button>
+                </div>
+            </div>
+            
+            <div class="grid-size">
+                <label>Grid size:</label>
+                <div class="size-buttons">
+                    <button class="size-btn active" data-size="5">5×5</button>
+                    <button class="size-btn" data-size="7">7×7</button>
+                    <button class="size-btn" data-size="9">9×9</button>
+                </div>
+            </div>
+            
+            <div class="player-names">
+                <div class="player-input-grid">
+                    <div class="player-input">
+                        <label>Player 1 (Red):</label>
+                        <input type="text" id="localPlayer1" maxlength="15">
+                    </div>
+                    <div class="player-input">
+                        <label>Player 2 (Blue):</label>
+                        <input type="text" id="localPlayer2" placeholder="Player 2" maxlength="15">
+                    </div>
+                </div>
+                <div class="player-input-grid">
+                    <div class="player-input hidden" id="player3Input">
+                        <label>Player 3 (Green):</label>
+                        <input type="text" id="localPlayer3" placeholder="Player 3" maxlength="15">
+                    </div>
+                    <div class="player-input hidden" id="player4Input">
+                        <label>Player 4 (Black):</label>
+                        <input type="text" id="localPlayer4" placeholder="Player 4" maxlength="15">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="fixed-action-bar">
+                <button id="startLocalGame" class="start-btn">Start Game</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Room Screen -->
+    <div id="createRoomScreen" class="screen">
+        <div class="room-container">
+            <button class="home-btn">🏠 Back to Home</button>
+            <h2>Create Room</h2>
+            
+            <div class="room-settings">
+                <div class="player-count">
+                    <label>Max players:</label>
+                    <div class="count-buttons">
+                        <button class="count-btn active" data-count="2">2</button>
+                        <button class="count-btn" data-count="3">3</button>
+                        <button class="count-btn" data-count="4">4</button>
+                    </div>
+                </div>
+                
+                <div class="grid-size">
+                    <label>Grid size:</label>
+                    <div class="size-buttons">
+                        <button class="size-btn active" data-size="5">5×5</button>
+                        <button class="size-btn" data-size="7">7×7</button>
+                        <button class="size-btn" data-size="9">9×9</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="fixed-action-bar">
+                <button id="createRoom" class="create-btn">Create Room</button>
+            </div>
+            
+            <div id="roomCreated" class="room-info hidden">
+                <h3>Room Created!</h3>
+                <div class="room-code">
+                    <label>Room Code:</label>
+                    <div class="code-display">
+                        <span id="roomCodeDisplay"></span>
+                        <button id="copyCode" class="copy-btn">📋</button>
+                    </div>
+                </div>
+                
+                <div class="invite-link">
+                    <label>Invite Link:</label>
+                    <div class="link-display">
+                        <span id="inviteLink"></span>
+                        <button id="copyLink" class="copy-btn">📋</button>
+                    </div>
+                </div>
+                
+                <div class="waiting-message">
+                    <p id="waitingText">🚌 Waiting for classmates...</p>
+                </div>
+                
+                <div class="lobby-players">
+                    <h4>Players in room:</h4>
+                    <ul id="lobbyPlayersList"></ul>
+                </div>
+                
+                <button id="startRoomGame" class="start-btn hidden">Start Game</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Join Room Screen -->
+    <div id="joinRoomScreen" class="screen">
+        <div class="join-container">
+            <button class="home-btn">🏠 Back to Home</button>
+            <h2>Join Room</h2>
+            
+            <div class="join-form">
+                <div class="input-group">
+                    <label for="joinRoomCode">Room Code:</label>
+                    <input type="text" id="joinRoomCode" placeholder="Enter 4-letter code" maxlength="4">
+                </div>
+                
+                <button id="joinRoom" class="join-btn">Join Room</button>
+                
+                <div id="joinError" class="error-message hidden"></div>
+                
+                <div id="joinedRoom" class="room-info hidden">
+                    <h3>Joined Room!</h3>
+                    <div class="room-details">
+                        <p>Room Code: <span id="joinedRoomCode"></span></p>
+                        <p>Grid Size: <span id="joinedGridSize"></span></p>
+                    </div>
+                    
+                    <div class="lobby-players">
+                        <h4>Players in room:</h4>
+                        <ul id="joinedPlayersList"></ul>
+                    </div>
+                    
+                    <div class="waiting-message">
+                        <p>Waiting for host to start the game...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Match Screen -->
+    <div id="quickMatchScreen" class="screen">
+        <div class="quickmatch-container">
+            <button class="home-btn">🏠 Back to Home</button>
+            <h2>Quick Match</h2>
+            
+            <div class="matching-status">
+                <div class="spinner"></div>
+                <p id="matchingText">🔍 Looking for an opponent...</p>
+                <p class="sub-text">This may take a moment</p>
+            </div>
+            
+            <div class="fixed-action-bar">
+                <button id="cancelMatch" class="cancel-btn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Screen -->
+    <div id="gameScreen" class="screen">
+        <!-- Desktop UI -->
+        <div class="desktop-ui">
+            <div class="top-bar">
+                <button class="home-btn">🏠 Back to Home</button>
+                <div class="top-controls">
+                    <button id="rulesBtn" class="control-btn" title="Rules">❓</button>
+                    <button id="themeToggle" class="control-btn" title="Toggle Theme">🌗</button>
+                    <button id="soundToggle" class="control-btn" title="Toggle Sound">🔊</button>
+                </div>
+            </div>
+            
+            <div class="game-layout">
+                <div class="left-panel">
+                    <div class="chat-container desktop-chat">
+                        <div class="chat-header">
+                            <h3>💬 Chat</h3>
+                        </div>
+                        <div class="chat-messages" id="desktopChatMessages"></div>
+                        <div class="chat-input">
+                            <button id="desktopEmojiBtn" class="emoji-btn" type="button">😊</button>
+                            <input id="desktopChatInput" />
+                            <button id="desktopSendBtn">📤</button>
+                            <!-- Desktop Emoji Picker -->
+                            <div id="desktopEmojiPicker" class="emoji-picker hidden"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="center-panel">
+                    <div class="game-board-container">
+                        <canvas id="gameBoard"></canvas>
+                    </div>
+                </div>
+                
+                <div class="right-panel">
+                    <div class="scoreboard-container">
+                        <h3>📊 Scoreboard</h3>
+                        <div class="scores" id="scoresList"></div>
+                        <div class="current-turn" id="currentTurnDisplay"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile UI -->
+        <div class="mobile-ui">
+            <div class="mobile-header">
+                <button id="mobileRulesBtn" class="mobile-rule-btn" title="Rules">❓</button>
+            </div>
+            
+            <div class="mobile-game-area">
+                <canvas id="mobileGameBoard"></canvas>
+            </div>
+            
+            <div class="current-turn-mobile" id="currentTurnMobile"></div>
+            
+            <div class="mobile-nav">
+                <button class="nav-btn" id="mobileHomeBtn" title="Home">🏠</button>
+                <button class="nav-btn" id="mobileChatBtn" title="Chat">🧾</button>
+                <button class="nav-btn" id="mobileScoreBtn" title="Score">🧮</button>
+                <button class="nav-btn" id="mobileThemeBtn" title="Theme">🌗</button>
+                <button class="nav-btn" id="mobileSoundBtn" title="Sound">🔊</button>
+                <button class="nav-btn" id="mobileSupportBtn" title="Support">☕</button>
+            </div>
+            
+            <!-- Mobile Chat Drawer -->
+            <div class="mobile-drawer hidden" id="mobileChatDrawer">
+                <div class="drawer-header">
+                    <h3>💬 Chat</h3>
+                    <button class="drawer-close">⬇️</button>
+                </div>
+                <div class="drawer-content">
+                    <div class="chat-messages" id="mobileChatMessages"></div>
+                    <div class="chat-input">
+                        <button id="mobileEmojiBtn" class="emoji-btn" type="button">😊</button>
+                        <input id="mobileChatInput" />
+                        <button id="mobileSendBtn">📤</button>
+                        <!-- Mobile Emoji Picker -->
+                        <div id="mobileEmojiPicker" class="emoji-picker hidden"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Mobile Score Drawer -->
+            <div class="mobile-drawer hidden" id="mobileScoreDrawer">
+                <div class="drawer-header">
+                    <h3>📊 Scoreboard</h3>
+                    <button class="drawer-close">⬇️</button>
+                </div>
+                <div class="drawer-content">
+                    <div class="scores" id="mobileScoresList"></div>
+                    <div class="current-turn" id="mobileCurrentTurnDisplay"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rules Modal -->
+    <div id="rulesModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>📜 Game Rules</h3>
+                <button class="modal-close">✖️</button>
+            </div>
+            <div class="modal-body">
+                <ul>
+                    <li>Take turns drawing lines between dots</li>
+                    <li>Complete a box to earn 1 point and get another turn</li>
+                    <li>Most boxes wins!</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirm Modal -->
+    <div id="confirmModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>⚠️ Confirmation</h3>
+            </div>
+            <div class="modal-body">
+                <p id="confirmMessage"></p>
+                <div class="modal-buttons">
+                    <button id="confirmYes" class="confirm-btn">Yes</button>
+                    <button id="confirmNo" class="cancel-btn">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- End Game Modal -->
+    <div id="endGameModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="endGameTitle">🎉 Game Over!</h3>
+            </div>
+            <div class="modal-body">
+                <p id="endGameMessage"></p>
+                <div class="final-scores" id="finalScores"></div>
+                <div class="modal-buttons">
+                    <button id="rematchBtn" class="confirm-btn">🔁 Rematch</button>
+                    <button id="quitBtn" class="cancel-btn">🚪 Quit to Home</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Support Button (Desktop) -->
+    <div class="support-float">
+        <a href="https://buymeacoffee.com/anisarzoo" target="_blank" class="support-btn" title="Buy me a coffee">
+            ☕
+        </a>
+    </div>
+
+    <!-- Audio Elements -->
+    <audio id="clickSound" preload="auto">
+        <source src="assets/sounds/click.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="chalkSound" preload="auto">
+        <source src="assets/sounds/chalk.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="markerSound" preload="auto">
+        <source src="assets/sounds/marker.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="winSound" preload="auto">
+        <source src="assets/sounds/win.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="drawSound" preload="auto">
+        <source src="assets/sounds/draw.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
+    <script src="scripts/network.js"></script>
+    <script src="scripts/ui.js"></script>
+    <script src="scripts/chat.js"></script>
+    <script src="scripts/game.js"></script>
+    <script src="scripts/main.js"></script>
+    <script>
